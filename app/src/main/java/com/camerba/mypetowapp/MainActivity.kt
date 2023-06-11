@@ -1,6 +1,7 @@
 package com.camerba.mypetowapp
 
 import android.os.Bundle
+import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -10,26 +11,42 @@ import androidx.navigation.ui.setupWithNavController
 import com.camerba.mypetowapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var textView: TextView
+
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.nav_home -> {
+
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.nav_search -> {
+
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.nav_add_post -> {
+
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.nav_hearth -> {
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.nav_profile -> {
+
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+
+        false
+    }
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 }

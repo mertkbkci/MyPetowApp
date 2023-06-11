@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyPetowApp</string>
+    <string name="app_name">Petow</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
