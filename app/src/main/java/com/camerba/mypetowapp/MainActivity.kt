@@ -16,27 +16,28 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_home -> {
-
+                textView.setText("Home")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_search -> {
-
+                textView.setText("Search")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_add_post -> {
-
+                textView.setText("Share")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_hearth -> {
+                textView.setText("Favoriler")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_profile -> {
-
+                textView.setText("Profile")
                 return@OnNavigationItemSelectedListener true
             }
         }
 
-        false
+       false
     }
 
     private lateinit var binding: ActivityMainBinding
@@ -46,7 +47,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
+        textView= findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+
+
     }
 }
