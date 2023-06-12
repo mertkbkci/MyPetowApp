@@ -11,7 +11,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
 
         findViewById<Button>(R.id.signin_link_btn).setOnClickListener {
-            startActivity(Intent(this,SignUpActivity::class.java))
+            startActivity(Intent(this,SignInActivity::class.java))
         }
     }
 }
