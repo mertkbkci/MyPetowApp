@@ -14,14 +14,38 @@
         android:src="@drawable/logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="130dp"/>
+    <EditText
+        android:id="@+id/fullname_signup"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/inputs_background"
+        android:padding="10dp"
+        android:layout_below="@+id/logo"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="textEmailAddress"
+        android:hint="İsimSoyisim..."/>
 
+    <EditText
+        android:id="@+id/username_signup"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/inputs_background"
+        android:padding="10dp"
+        android:layout_below="@+id/fullname_signup"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="textEmailAddress"
+        android:hint="KullanıcıAdı..."/>
     <EditText
         android:id="@+id/email_signup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/inputs_background"
         android:padding="10dp"
-        android:layout_below="@+id/logo"
+        android:layout_below="@+id/username_signup"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
