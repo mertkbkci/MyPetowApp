@@ -168,7 +168,7 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/edit_account_setting"
+                        android:id="@+id/edit_account_settings_btn"
                         android:layout_width="170dp"
                         android:layout_height="wrap_content"
                         android:text="Profili düzenle"

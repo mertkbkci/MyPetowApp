@@ -34,6 +34,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    viewBinding {
+        enabled = true
+        }
+
 }
 
 dependencies {
@@ -53,4 +58,6 @@ dependencies {
 
     //CircleImageVıew
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation 'com.sealwu.jsontokotlin:library:3.7.4'
 }
