@@ -35,7 +35,7 @@ class HearthFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hearth, container, false)
+        return inflater.inflate(R.layout.fragment_heart, container, false)
     }
 
     companion object {
