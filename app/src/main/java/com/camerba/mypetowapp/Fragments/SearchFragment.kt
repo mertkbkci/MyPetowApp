@@ -78,11 +78,40 @@ class SearchFragment : Fragment() {
 
     private fun searchUser(input: String) {
 
-        val userRef = FirebaseDatabase.getInstance().getReference()
+        val query = FirebaseDatabase.getInstance().getReference()
             .child("Users")
             .orderByChild("fullname")
             .startAt(input)
             .endAt(input)
+
+
+        query.addValueEventListener(object : ValueEventListener{
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                if (view?.findViewById<EditText>(R.id.search_edit_text)?.text.toString() == ""){
+                    mUser?.clear()
+
+                    for (snapshot in dataSnapshot.children){
+
+                        val user = snapshot.getValue(User::class.java)
+                        if (user != null){
+
+                            mUser?.add(user)
+                        }
+
+                    }
+                    userAdapter?.notifyDataSetChanged()
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+
+            }
+        })
 
 
     }
