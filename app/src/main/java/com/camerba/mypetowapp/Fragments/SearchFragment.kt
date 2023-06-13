@@ -1,15 +1,22 @@
 package com.camerba.mypetowapp.Fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.camerba.mypetowapp.Adapter.UserAdapter
 import com.camerba.mypetowapp.Model.User
 import com.camerba.mypetowapp.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 import kotlin.collections.ArrayList
 
@@ -37,11 +44,62 @@ class SearchFragment : Fragment() {
         userAdapter = context?.let { UserAdapter(it,mUser as ArrayList<User>,true) }
         recyclerView?.adapter = userAdapter
 
+        view.findViewById<EditText>(R.id.search_edit_text).addTextChangedListener(object : TextWatcher{
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (view.findViewById<EditText>(R.id.search_edit_text).text.toString() == ""){
+
+                }
+                else{
+
+                    recyclerView?.visibility = View.VISIBLE
+
+                    retrieveUsers ()
+                }
+            }
+        })
 
 
         return view
     }
 
+    private fun retrieveUsers() {
+
+        val userRef = FirebaseDatabase.getInstance().getReference().child("Users")
+        userRef.addValueEventListener(object : ValueEventListener{
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                if (view?.findViewById<EditText>(R.id.search_edit_text)?.text.toString() == ""){
+                    mUser?.clear()
+
+                    for (snapshot in dataSnapshot.children){
+
+                        val user = snapshot.getValue(User::class.java)
+
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+
+            }
+        })
+
+
+
+
+    }
 
 
 }
