@@ -89,21 +89,18 @@ class SearchFragment : Fragment() {
 
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                mUser?.clear()
 
-                if (view?.findViewById<EditText>(R.id.search_edit_text)?.text.toString() == ""){
-                    mUser?.clear()
+                for (snapshot in dataSnapshot.children){
 
-                    for (snapshot in dataSnapshot.children){
+                    val user = snapshot.getValue(User::class.java)
+                    if (user != null){
 
-                        val user = snapshot.getValue(User::class.java)
-                        if (user != null){
-
-                            mUser?.add(user)
-                        }
-
+                        mUser?.add(user)
                     }
-                    userAdapter?.notifyDataSetChanged()
+
                 }
+                userAdapter?.notifyDataSetChanged()
 
             }
 
