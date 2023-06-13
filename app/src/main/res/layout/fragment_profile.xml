@@ -30,7 +30,7 @@
                     android:id="@+id/profile_fragment_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="mert_kbkci"
+                    android:text="username"
                     android:textSize="24sp"
                     android:lines="1"
                     android:textStyle="bold"
@@ -194,7 +194,7 @@
                     android:id="@+id/full_name_profile_frag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mert Kabakçı"
+                    android:text="fullname"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -203,7 +203,7 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hayvan sever.. "
+                    android:text="Bio.. "
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -225,7 +225,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/grid"
                     android:layout_weight="1"
-                    android:contentDescription="@null"
+                    android:contentDescription="@string/title_home"
                     style="?android:attr/buttonBarButtonStyle"/>
 
                 <ImageButton
@@ -233,7 +233,7 @@
                     android:layout_width="1dp"
                     android:layout_height="49dp"
                     android:scaleType="fitCenter"
-                    android:contentDescription="@null"
+                    android:contentDescription="@string/title_home"
                     android:src="@drawable/save_large_icon"
                     android:layout_weight="1"
                     style="?android:attr/buttonBarButtonStyle"/>

@@ -73,7 +73,7 @@
         android:layout_below="@+id/profile_image_view_profile_frag"/>
 
     <EditText
-        android:id="@+id/Full_name_profile_frag"
+        android:id="@+id/full_name_profile_frag"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/change_image_text_btn"
@@ -81,18 +81,18 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="20dp"
         android:inputType="text"
-        android:hint="Full İsim" />
+        android:hint="fullname" />
 
     <EditText
         android:id="@+id/usermane_profile_frag"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/Full_name_profile_frag"
+        android:layout_below="@+id/full_name_profile_frag"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="20dp"
         android:inputType="text"
-        android:hint="Kullanıcı Adı" />
+        android:hint="username" />
 
     <EditText
         android:id="@+id/bio_profile_frag"

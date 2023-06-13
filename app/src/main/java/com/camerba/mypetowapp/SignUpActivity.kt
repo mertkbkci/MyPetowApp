@@ -35,12 +35,12 @@ class SignUpActivity : AppCompatActivity() {
 
         when{
 
-            TextUtils.isEmpty(fullName) -> Toast.makeText(this,"Ad Soyad gereklidir.",Toast.LENGTH_LONG)
-            TextUtils.isEmpty(userName) -> Toast.makeText(this,"Kullanıcı adı gereklidir.",Toast.LENGTH_LONG)
-            TextUtils.isEmpty(email) -> Toast.makeText(this,"Email gereklidir.",Toast.LENGTH_LONG)
-            TextUtils.isEmpty(password) -> Toast.makeText(this,"Şifre gereklidir.",Toast.LENGTH_LONG)
+            TextUtils.isEmpty(fullName) -> Toast.makeText(this,"Ad Soyad gereklidir.",Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(userName) -> Toast.makeText(this,"Kullanıcı adı gereklidir.",Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(email) -> Toast.makeText(this,"Email gereklidir.",Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(password) -> Toast.makeText(this,"Şifre gereklidir.",Toast.LENGTH_LONG).show()
 
-            else ->{
+            else -> {
                 val progressDialog = ProgressDialog(this@SignUpActivity)
                 progressDialog.setTitle("Kayıl Ol")
                 progressDialog.setMessage("Lütfen bekleyin,bu biraz zaman alabilir...")
@@ -57,7 +57,7 @@ class SignUpActivity : AppCompatActivity() {
                         }
                         else{
                             val message = task.exception!!.toString()
-                            Toast.makeText(this,"Hata: $message",Toast.LENGTH_LONG)
+                            Toast.makeText(this,"Hata: $message",Toast.LENGTH_LONG).show()
                             mAuth.signOut()
                             progressDialog.dismiss()
                         }
@@ -77,24 +77,26 @@ class SignUpActivity : AppCompatActivity() {
         userMap["fullname"] = currentUserID
         userMap["username"] = currentUserID
         userMap["email"] = currentUserID
-        userMap["bio"] = "hey ben bir hayvan severim ve sahiplendirilmeye ihtiyaç duyan evcil hayvanlar için burdayım. "
+        userMap["bio"] = "hey ben bir hayvan severim. "
         userMap["image"] = "https://firebasestorage.googleapis.com/v0/b/mypetowapp.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=2ac8d5e1-4619-4b49-89f8-9ec4f7e2471d"
 
         usersRef.child(currentUserID).setValue(userMap)
-            .addOnCompleteListener {task ->
-            if (task.isSuccessful)    {
+            .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+
                 progressDialog.dismiss()
-                Toast.makeText(this,"Hesap başarıyla oluşturuldu.",Toast.LENGTH_LONG)
+                Toast.makeText(this,"Hesap başarıyla oluşturuldu.",Toast.LENGTH_LONG).show()
 
 
-                val intent = Intent(this@SignUpActivity,MainActivity::class.java)
+                val intent = Intent(this@SignUpActivity, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
             }
                 else {
-                val message = task.exception!!.toString()
-                Toast.makeText(this, "Hata: $message", Toast.LENGTH_LONG)
+
+                    val message = task.exception!!.toString()
+                Toast.makeText(this, "Hata: $message", Toast.LENGTH_LONG).show()
                 FirebaseAuth.getInstance().signOut()
                 progressDialog.dismiss()
             }
