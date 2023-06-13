@@ -11,6 +11,9 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
 
 class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,12 +75,14 @@ class SignUpActivity : AppCompatActivity() {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef : DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
 
+        val database = Firebase.firestore
+
         val userMap = HashMap<String,Any>()
         userMap["uid"] = currentUserID
-        userMap["fullname"] = currentUserID
-        userMap["username"] = currentUserID
-        userMap["email"] = currentUserID
-        userMap["bio"] = "hey ben bir hayvan severim. "
+        userMap["fullname"] = fullName
+        userMap["username"] = userName
+        userMap["email"] = email
+        userMap["bio"] = "ben bir hayvan severim. "
         userMap["image"] = "https://firebasestorage.googleapis.com/v0/b/mypetowapp.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=2ac8d5e1-4619-4b49-89f8-9ec4f7e2471d"
 
         usersRef.child(currentUserID).setValue(userMap)
@@ -88,7 +93,7 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this,"Hesap başarıyla oluşturuldu.",Toast.LENGTH_LONG).show()
 
 
-                val intent = Intent(this@SignUpActivity, MainActivity::class.java)
+                val intent = Intent(this@SignUpActivity, SignInActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
