@@ -1,5 +1,6 @@
 package com.camerba.mypetowapp.Fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +18,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.util.Locale
 
 import kotlin.collections.ArrayList
 
@@ -63,6 +65,7 @@ class SearchFragment : Fragment() {
                     recyclerView?.visibility = View.VISIBLE
 
                     retrieveUsers ()
+                    searchUser(s.toString().toLowerCase(Locale.ROOT))
                 }
             }
         })
@@ -71,11 +74,25 @@ class SearchFragment : Fragment() {
         return view
     }
 
+
+
+    private fun searchUser(input: String) {
+
+        val userRef = FirebaseDatabase.getInstance().getReference()
+            .child("Users")
+            .orderByChild("fullname")
+            .startAt(input)
+            .endAt(input)
+
+
+    }
+
     private fun retrieveUsers() {
 
         val userRef = FirebaseDatabase.getInstance().getReference().child("Users")
         userRef.addValueEventListener(object : ValueEventListener{
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 if (view?.findViewById<EditText>(R.id.search_edit_text)?.text.toString() == ""){
@@ -84,8 +101,13 @@ class SearchFragment : Fragment() {
                     for (snapshot in dataSnapshot.children){
 
                         val user = snapshot.getValue(User::class.java)
+                        if (user != null){
+
+                            mUser?.add(user)
+                        }
 
                     }
+                    userAdapter?.notifyDataSetChanged()
                 }
 
             }
