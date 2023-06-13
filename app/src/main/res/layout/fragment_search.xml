@@ -32,6 +32,7 @@
                     android:src="@drawable/ic_search"/>
 
                 <EditText
+                    android:id="@+id/search_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
@@ -53,6 +54,7 @@
         android:id="@+id/recycler_view_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:layout_below="@+id/app_bar_layout_search">
 
 

@@ -23,11 +23,38 @@
             android:layout_centerHorizontal="true"/>
 
         <TextView
+            android:id="@+id/user_name_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="kullanıcı adı"
             android:gravity="center"
+            android:textSize="14sp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/purple_200"
             android:layout_below="@id/user_profile_image_search"/>
+
+        <TextView
+            android:id="@+id/user_full_name_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kullanıcı profil adı"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="2dp"
+            android:textSize="16sp"
+            android:textColor="@color/purple_200"
+            android:layout_below="@id/user_name_search"/>
+
+        <Button
+            android:id="@+id/follow_btn_search"
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/user_full_name_search"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_black_background"
+            android:text="Takip et"
+            android:textAllCaps="false"
+            android:layout_margin="10dp"/>
 
 
 

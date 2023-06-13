@@ -13,6 +13,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.Locale
+import android.app.ProgressDialog as Pro
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -44,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
             TextUtils.isEmpty(password) -> Toast.makeText(this,"Şifre gereklidir.",Toast.LENGTH_LONG).show()
 
             else -> {
-                val progressDialog = ProgressDialog(this@SignUpActivity)
+                val progressDialog = Pro(this@SignUpActivity)
                 progressDialog.setTitle("Kayıl Ol")
                 progressDialog.setMessage("Lütfen bekleyin,bu biraz zaman alabilir...")
                 progressDialog.setCanceledOnTouchOutside(false)
@@ -70,17 +72,17 @@ class SignUpActivity : AppCompatActivity() {
 
     }
 
-    private fun saveUserInfo(fullName: String, userName: String, email: String, progressDialog: ProgressDialog) {
+    private fun saveUserInfo(fullName: String, userName: String, email: String, progressDialog:ProgressDialog) {
 
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef : DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
 
-        val database = Firebase.firestore
+
 
         val userMap = HashMap<String,Any>()
         userMap["uid"] = currentUserID
-        userMap["fullname"] = fullName
-        userMap["username"] = userName
+        userMap["fullname"] = fullName.toLowerCase(Locale.ROOT)
+        userMap["username"] = userName.toLowerCase(Locale.ROOT)
         userMap["email"] = email
         userMap["bio"] = "ben bir hayvan severim. "
         userMap["image"] = "https://firebasestorage.googleapis.com/v0/b/mypetowapp.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=2ac8d5e1-4619-4b49-89f8-9ec4f7e2471d"
@@ -93,10 +95,10 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this,"Hesap başarıyla oluşturuldu.",Toast.LENGTH_LONG).show()
 
 
-                val intent = Intent(this@SignUpActivity, SignInActivity::class.java)
+                val intent = Intent(this@SignUpActivity, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
-                finish()
+
             }
                 else {
 

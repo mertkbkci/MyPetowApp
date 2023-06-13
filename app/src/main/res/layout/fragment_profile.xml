@@ -30,7 +30,7 @@
                     android:id="@+id/profile_fragment_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="username"
+                    android:text="KulllanıcıAdı"
                     android:textSize="24sp"
                     android:lines="1"
                     android:textStyle="bold"
@@ -194,7 +194,7 @@
                     android:id="@+id/full_name_profile_frag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="fullname"
+                    android:text="Full isim"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
