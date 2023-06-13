@@ -63,7 +63,7 @@ class SearchFragment : Fragment() {
                     recyclerView?.visibility = View.VISIBLE
 
                     retrieveUsers ()
-                    searchUser(s.toString().toLowerCase(Locale.ROOT))
+                    searchUser(s.toString().toLowerCase())
                 }
             }
 

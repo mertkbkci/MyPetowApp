@@ -81,11 +81,11 @@ class SignUpActivity : AppCompatActivity() {
 
         val userMap = HashMap<String,Any>()
         userMap["uid"] = currentUserID
-        userMap["fullname"] = fullName.toLowerCase(Locale.ROOT)
-        userMap["username"] = userName.toLowerCase(Locale.ROOT)
+        userMap["fullname"] = fullName.toLowerCase()
+        userMap["username"] = userName.toLowerCase()
         userMap["email"] = email
         userMap["bio"] = "ben bir hayvan severim. "
-        userMap["image"] = "https://firebasestorage.googleapis.com/v0/b/mypetowapp.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=2ac8d5e1-4619-4b49-89f8-9ec4f7e2471d"
+        userMap["image"] = "https://firebasestorage.googleapis.com/v0/b/petow5.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=c6c7c5b9-bb88-456e-9ded-2a0f1c898c93"
 
         usersRef.child(currentUserID).setValue(userMap)
             .addOnCompleteListener { task ->
