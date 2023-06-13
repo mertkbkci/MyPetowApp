@@ -49,12 +49,10 @@ class SearchFragment : Fragment() {
         view.findViewById<EditText>(R.id.search_edit_text).addTextChangedListener(object : TextWatcher{
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("Not yet implemented")
+
             }
 
-            override fun afterTextChanged(s: Editable?) {
-                TODO("Not yet implemented")
-            }
+
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (view.findViewById<EditText>(R.id.search_edit_text).text.toString() == ""){
@@ -67,6 +65,11 @@ class SearchFragment : Fragment() {
                     retrieveUsers ()
                     searchUser(s.toString().toLowerCase(Locale.ROOT))
                 }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+
             }
         })
 
@@ -82,7 +85,7 @@ class SearchFragment : Fragment() {
             .child("Users")
             .orderByChild("fullname")
             .startAt(input)
-            .endAt(input)
+            .endAt(input + "\uf8ff")
 
 
         query.addValueEventListener(object : ValueEventListener{
