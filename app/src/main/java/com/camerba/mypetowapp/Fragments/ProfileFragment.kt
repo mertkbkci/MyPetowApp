@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.camerba.mypetowapp.AccountSettingsActivity
+import com.camerba.mypetowapp.Model.User
 import com.camerba.mypetowapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -17,6 +18,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +52,7 @@ class ProfileFragment : Fragment() {
 
             view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Edit Profile"
         }
-        else  if (profileId == firebaseUser.uid){
+        else  if (profileId != firebaseUser.uid){
 
             checkFollowAndFollowingButtonStatus()
         }
@@ -61,6 +63,7 @@ class ProfileFragment : Fragment() {
 
         getFollowers()
         getFollowings()
+        userInfo()
         return view
     }
 
@@ -96,12 +99,11 @@ class ProfileFragment : Fragment() {
 
 
     private fun getFollowers(){
-        val followersRef = firebaseUser?.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Follow").child(it1.toString())
+        val followersRef = FirebaseDatabase.getInstance().reference
+                .child("Follow").child(profileId)
                 .child("Followers")
 
-        }
+
 
         followersRef.addValueEventListener(object  : ValueEventListener{
 
@@ -121,12 +123,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun getFollowings(){
-        val followersRef = firebaseUser?.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Follow").child(it1.toString())
+        val followersRef = FirebaseDatabase.getInstance().reference
+                .child("Follow").child(profileId)
                 .child("Following")
 
-        }
+
 
         followersRef.addValueEventListener(object  : ValueEventListener{
 
@@ -135,6 +136,32 @@ class ProfileFragment : Fragment() {
                 if (pO.exists()){
 
                     view?.findViewById<TextView>(R.id.total_following)?.text = pO.childrenCount.toString()
+                }
+            }
+
+            override fun onCancelled(pO: DatabaseError) {
+
+            }
+
+        })
+    }
+    private fun userInfo(){
+        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
+
+        usersRef.addValueEventListener(object :ValueEventListener{
+
+            override fun onDataChange(pO: DataSnapshot) {
+                if (context != null){
+                    return
+                }
+
+                if (pO.exists()){
+                    val user = pO.getValue<User>(User::class.java)
+
+                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(view?.findViewById(R.id.pro_image_profile_frag))
+                    view?.findViewById<TextView>(R.id.profile_fragment_username)?.text = user!!.getUsername()
+                    view?.findViewById<TextView>(R.id.full_name_profile_frag)?.text = user!!.getFullname()
+                    view?.findViewById<TextView>(R.id.bio_profile_frag)?.text = user!!.getBio()
                 }
             }
 
