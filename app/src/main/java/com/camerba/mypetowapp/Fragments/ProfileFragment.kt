@@ -122,7 +122,7 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-            override fun onCancelled(p0: DatabaseError) {
+            override fun onCancelled(pO: DatabaseError) {
 
             }
 
