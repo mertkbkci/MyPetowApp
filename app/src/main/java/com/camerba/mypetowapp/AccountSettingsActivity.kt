@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.camerba.mypetowapp.Model.User
@@ -51,59 +52,63 @@ class AccountSettingsActivity : AppCompatActivity() {
 
     private fun updateUserInfoOnly() {
 
-        if (TextUtils.isEmpty(findViewById<TextView>(R.id.full_name_profile_frag).text.toString())){
-            Toast.makeText(this,"Lütfen önce full isminici yazın.", Toast.LENGTH_LONG).show()
-        }
-        else  if (findViewById<TextView>(R.id.usermane_profile_frag).text.toString() == ""){
-            Toast.makeText(this,"Lütfen önce kullanıcı adınızı yazın.", Toast.LENGTH_LONG).show()
-        }
-        else  if (findViewById<TextView>(R.id.bio_profile_frag).text.toString() == ""){
-            Toast.makeText(this,"Lütfen önce bionuzu yazın.", Toast.LENGTH_LONG).show()
-        }
-        else {
-            val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.uid)
+       when {
+           TextUtils.isEmpty(findViewById<EditText>(R.id.full_name_profile_frag).text.toString())-> Toast.makeText(this,"Lütfen önce full isminizi girin.",Toast.LENGTH_LONG).show()
+           findViewById<EditText>(R.id.usermane_profile_frag).text.toString() ==""-> Toast.makeText(this,"Lütfen önce kullanıcı adınızı girin." , Toast.LENGTH_LONG).show()
+           findViewById<EditText>(R.id.bio_profile_frag).text.toString() ==""-> Toast.makeText(this,"Lütfen önce bionuzu girin." , Toast.LENGTH_LONG).show()
 
-            val userMap = HashMap<String,Any>()
-            userMap["fullname"] =findViewById<TextView>(R.id.full_name_profile_frag).text.toString().toLowerCase()
-            userMap["username"] =findViewById<TextView>(R.id.usermane_profile_frag).text.toString().toLowerCase()
-            userMap["bio"] = findViewById<TextView>(R.id.bio_profile_frag).text.toString().toLowerCase()
-
-            usersRef.child(firebaseUser.uid).updateChildren(userMap)
-
-            Toast.makeText(this,"Hesap bilgileri başarıyla güncellendi.",Toast.LENGTH_LONG).show()
+           else -> {
+               val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
 
 
-            val intent = Intent(this@AccountSettingsActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+               val userMap = HashMap<String, Any>()
+               userMap["fullname"] =
+                   findViewById<EditText>(R.id.full_name_profile_frag).text.toString().toLowerCase()
+               userMap["username"] =
+                   findViewById<EditText>(R.id.usermane_profile_frag).text.toString().toLowerCase()
+               userMap["bio"] =
+                   findViewById<EditText>(R.id.bio_profile_frag).text.toString().toLowerCase()
 
-        }
+               usersRef.child(firebaseUser.uid).updateChildren(userMap)
+
+               Toast.makeText(this, "Hesap bilgileri başarıyla güncellendi.", Toast.LENGTH_LONG)
+                   .show()
+
+
+               val intent = Intent(this@AccountSettingsActivity, MainActivity::class.java)
+               startActivity(intent)
+               finish()
+
+           }
+       }
     }
 
 
 
     private fun userInfo(){
-        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.uid)
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
         usersRef.addValueEventListener(object : ValueEventListener {
 
-            override fun onDataChange(pO: DataSnapshot) {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
 
-                if (pO.exists()){
-                    val user = pO.getValue<User>(User::class.java)
+                if (dataSnapshot.exists()){
+                    val user = dataSnapshot.getValue<User>(User::class.java)
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(findViewById<CircleImageView>(R.id.profile_image_view_profile_frag))
-                    findViewById<TextView>(R.id.usermane_profile_frag).setText(user!!.getUsername())
-                    findViewById<TextView>(R.id.full_name_profile_frag).setText( user!!.getFullname())
-                    findViewById<TextView>(R.id.bio_profile_frag).setText(user!!.getBio())
+                    findViewById<TextView>(R.id.usermane_profile_frag).text= user!!.getUsername()
+                    findViewById<TextView>(R.id.full_name_profile_frag).text = user!!.getFullname()
+                    findViewById<TextView>(R.id.bio_profile_frag).text = user!!.getBio()
                 }
             }
 
-            override fun onCancelled(pO: DatabaseError) {
+            override fun onCancelled(dataSnapshot: DatabaseError) {
 
             }
 
         })
     }
 }
+
+
