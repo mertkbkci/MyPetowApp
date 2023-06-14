@@ -1,5 +1,6 @@
 package com.camerba.mypetowapp.Adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -93,12 +94,12 @@ class UserAdapter (private var mContext: Context,
         }
     }
 
-    class ViewHolder (@NonNull itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        var userNameTextView : TextView =itemView.findViewById(R.id.user_name_search)
-        var userFullNameTextView : TextView =itemView.findViewById(R.id.user_full_name_search)
-        var userProfileImage : CircleImageView =itemView.findViewById(R.id.user_profile_image_search)
-        var followButton : Button=itemView.findViewById(R.id.follow_btn_search)
+        var userNameTextView   = itemView.findViewById<TextView>(R.id.user_name_search)
+        var userFullNameTextView  = itemView.findViewById<TextView>(R.id.user_full_name_search)
+        var userProfileImage = itemView.findViewById<CircleImageView>(R.id.user_profile_image_search)
+        var followButton  = itemView.findViewById<Button>(R.id.follow_btn_search)
     }
     private fun checkFollowingStatus(uid: String, followButton: Button) {
 
@@ -110,13 +111,15 @@ class UserAdapter (private var mContext: Context,
 
         followingRef.addValueEventListener(object  : ValueEventListener{
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                if (dataSnapshot.child(uid).exists()){
-                    followButton.text = "Following"
+
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+
+                if (datasnapshot.child(uid).exists()){
+                    followButton.text = "Follow"
                 }
                 else{
-                    followButton.text = "Follow"
+                    followButton.text = "Following"
                 }
             }
 
