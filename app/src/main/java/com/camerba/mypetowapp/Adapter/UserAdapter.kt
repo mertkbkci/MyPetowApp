@@ -45,19 +45,19 @@ class UserAdapter (private var mContext: Context,
 
 
         holder.followButton.setOnClickListener {
-            if (holder.userFullNameTextView.text.toString() == "Takip et") {
+            if (holder.userFullNameTextView.text.toString() == "Follow") {
 
                 firebaseUser?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
-                        .child("Takip et").child(it1.toString())
-                        .child("Takip ediliyor").child(user.getUID())
+                        .child("Follow").child(it1.toString())
+                        .child("Following").child(user.getUID())
                         .setValue(true).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
 
                                 firebaseUser?.uid.let { it1 ->
                                     FirebaseDatabase.getInstance().reference
-                                        .child("Takip et").child(user.getUID())
-                                        .child("Takipçiler").child(it1.toString())
+                                        .child("Follow").child(user.getUID())
+                                        .child("Followers").child(it1.toString())
                                         .setValue(true).addOnCompleteListener { task ->
                                             if (task.isSuccessful) {
 
@@ -71,15 +71,15 @@ class UserAdapter (private var mContext: Context,
             else{
                 firebaseUser?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
-                        .child("Takip et").child(it1.toString())
-                        .child("Takip ediliyor").child(user.getUID())
+                        .child("Follow").child(it1.toString())
+                        .child("Following").child(user.getUID())
                         .removeValue().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
 
                                 firebaseUser?.uid.let { it1 ->
                                     FirebaseDatabase.getInstance().reference
-                                        .child("Takip et").child(user.getUID())
-                                        .child("Takipçiler").child(it1.toString())
+                                        .child("Follow").child(user.getUID())
+                                        .child("Followers").child(it1.toString())
                                         .removeValue().addOnCompleteListener { task ->
                                             if (task.isSuccessful) {
 
@@ -104,8 +104,8 @@ class UserAdapter (private var mContext: Context,
 
        val followingRef = firebaseUser?.uid.let { it1 ->
            FirebaseDatabase.getInstance().reference
-               .child("Takip et").child(it1.toString())
-               .child("Takip ediliyor")
+               .child("Follow").child(it1.toString())
+               .child("Following")
        }
 
         followingRef.addValueEventListener(object  : ValueEventListener{
@@ -113,10 +113,10 @@ class UserAdapter (private var mContext: Context,
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 if (dataSnapshot.child(uid).exists()){
-                    followButton.text = " Takip Ediliyor"
+                    followButton.text = "Following"
                 }
                 else{
-                    followButton.text = " Takip Et"
+                    followButton.text = "Follow"
                 }
             }
 

@@ -51,10 +51,13 @@
             android:layout_height="50dp"
             android:layout_below="@id/user_full_name_search"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/button_black_background"
-            android:text="Takip et"
-            android:textAllCaps="false"
-            android:layout_margin="10dp"/>
+            android:text="Follow"
+            android:textAllCaps="false" />
 
 
 
