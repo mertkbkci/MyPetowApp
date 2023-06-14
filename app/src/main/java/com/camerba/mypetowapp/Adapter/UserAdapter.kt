@@ -1,5 +1,6 @@
 package com.camerba.mypetowapp.Adapter
 
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -29,9 +30,7 @@ class UserAdapter (private var mContext: Context,
         val view = LayoutInflater.from(mContext).inflate(R.layout.user_item_layout,parent,false)
         return UserAdapter.ViewHolder(view)
     }
-    override fun getItemCount(): Int {
-        return mUser.size
-    }
+    override fun getItemCount(): Int = mUser.size
 
 
     override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
@@ -94,12 +93,12 @@ class UserAdapter (private var mContext: Context,
         }
     }
 
-    class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder (@NonNull itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        var userNameTextView   = itemView.findViewById<TextView>(R.id.user_name_search)
-        var userFullNameTextView  = itemView.findViewById<TextView>(R.id.user_full_name_search)
-        var userProfileImage = itemView.findViewById<CircleImageView>(R.id.user_profile_image_search)
-        var followButton  = itemView.findViewById<Button>(R.id.follow_btn_search)
+        var userNameTextView: TextView  = itemView.findViewById(R.id.user_name_search)
+        var userFullNameTextView:TextView  = itemView.findViewById(R.id.user_full_name_search)
+        var userProfileImage:  CircleImageView= itemView.findViewById(R.id.user_profile_image_search)
+        var followButton : Button = itemView.findViewById(R.id.follow_btn_search)
     }
     private fun checkFollowingStatus(uid: String, followButton: Button) {
 
@@ -112,14 +111,15 @@ class UserAdapter (private var mContext: Context,
         followingRef.addValueEventListener(object  : ValueEventListener{
 
 
+           // burda bi sıkıntı var döncem
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-            override fun onDataChange(datasnapshot: DataSnapshot) {
-
-                if (datasnapshot.child(uid).exists()){
-                    followButton.text = "Follow"
+                if (dataSnapshot.child(uid).exists()){
+                    followButton.text = "Following"
                 }
                 else{
-                    followButton.text = "Following"
+                    followButton.text = "Follow"
                 }
             }
 
