@@ -50,7 +50,7 @@ class ProfileFragment : Fragment() {
 
         if (profileId == firebaseUser.uid){
 
-            view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Edit Profile"
+            view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Profili Düzenle"
         }
         else  if (profileId != firebaseUser.uid){
 
@@ -74,27 +74,25 @@ class ProfileFragment : Fragment() {
                 .child("Following")
 
         }
+// değişti
+        followingRef.addValueEventListener(object : ValueEventListener{
 
-        if (followingRef != null){
-            followingRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(pO: DataSnapshot) {
 
-                override fun onDataChange(pO: DataSnapshot) {
-
-                    if (pO.child(profileId).exists()){
-                        view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Following"
-                    }
-                    else{
-                        view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Follow"
-                    }
+                if (pO.child(profileId).exists()){
+                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Takip ediliyor"
                 }
-
-                override fun onCancelled(p0: DatabaseError) {
-
+                else{
+                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Takip et"
                 }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
 
 
-            })
-        }
+        })
     }
 
 

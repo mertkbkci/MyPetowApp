@@ -102,7 +102,7 @@ class UserAdapter (private var mContext: Context,
         }
     }
 
-    class ViewHolder (@NonNull itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
 
         var userNameTextView: TextView  = itemView.findViewById(R.id.user_name_search)
         var userFullNameTextView:TextView  = itemView.findViewById(R.id.user_full_name_search)
@@ -122,13 +122,13 @@ class UserAdapter (private var mContext: Context,
 
            // burda bi sıkıntı var döncem
 
-            override fun onDataChange(datasnapshot: DataSnapshot) {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                if (datasnapshot.child(uid).exists()){
-                    followButton.text = "Following"
+                if (dataSnapshot.child(uid).exists()){
+                    followButton.text = "Takip ediliyor"
                 }
                 else{
-                    followButton.text = "Follow"
+                    followButton.text = "Takip et"
                 }
             }
 
