@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.camerba.mypetowapp.Fragments.ProfileFragment
 import com.camerba.mypetowapp.Model.User
 import com.camerba.mypetowapp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -42,6 +44,13 @@ class UserAdapter (private var mContext: Context,
         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(holder.userProfileImage)
 
         checkFollowingStatus(user.getUID(), holder.followButton)
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+            pref.putString("profileId",user.getUID())
+            pref.apply()
+
+            (mContext as FragmentActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ProfileFragment()).commit()
+        })
 
 
         holder.followButton.setOnClickListener {
@@ -112,10 +121,10 @@ class UserAdapter (private var mContext: Context,
 
 
            // burda bi sıkıntı var döncem
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                if (dataSnapshot.child(uid).exists()){
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+
+                if (datasnapshot.child(uid).exists()){
                     followButton.text = "Following"
                 }
                 else{
