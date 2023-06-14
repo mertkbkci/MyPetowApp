@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import com.camerba.mypetowapp.AccountSettingsActivity
 import com.camerba.mypetowapp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -57,6 +58,9 @@ class ProfileFragment : Fragment() {
         view.findViewById<Button>(R.id.edit_account_settings_btn).setOnClickListener {
             startActivity(Intent(context,AccountSettingsActivity::class.java))
         }
+
+        getFollowers()
+        getFollowings()
         return view
     }
 
@@ -71,9 +75,9 @@ class ProfileFragment : Fragment() {
         if (followingRef != null){
             followingRef.addValueEventListener(object : ValueEventListener{
 
-                override fun onDataChange(p0: DataSnapshot) {
+                override fun onDataChange(pO: DataSnapshot) {
 
-                    if (p0.child(profileId).exists()){
+                    if (pO.child(profileId).exists()){
                         view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Following"
                     }
                     else{
@@ -91,4 +95,53 @@ class ProfileFragment : Fragment() {
     }
 
 
+    private fun getFollowers(){
+        val followersRef = firebaseUser?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow").child(it1.toString())
+                .child("Followers")
+
+        }
+
+        followersRef.addValueEventListener(object  : ValueEventListener{
+
+            override fun onDataChange(pO: DataSnapshot) {
+
+                if (pO.exists()){
+
+                    view?.findViewById<TextView>(R.id.total_followers)?.text = pO.childrenCount.toString()
+                }
+            }
+
+            override fun onCancelled(pO: DatabaseError) {
+
+            }
+
+        })
+    }
+
+    private fun getFollowings(){
+        val followersRef = firebaseUser?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow").child(it1.toString())
+                .child("Following")
+
+        }
+
+        followersRef.addValueEventListener(object  : ValueEventListener{
+
+            override fun onDataChange(pO: DataSnapshot) {
+
+                if (pO.exists()){
+
+                    view?.findViewById<TextView>(R.id.total_following)?.text = pO.childrenCount.toString()
+                }
+            }
+
+            override fun onCancelled(pO: DatabaseError) {
+
+            }
+
+        })
+    }
 }
