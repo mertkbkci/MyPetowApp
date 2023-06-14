@@ -151,9 +151,9 @@ class ProfileFragment : Fragment() {
         usersRef.addValueEventListener(object :ValueEventListener{
 
             override fun onDataChange(pO: DataSnapshot) {
-                if (context != null){
-                    return
-                }
+ //               if (context != null){
+   //                 return
+     //           }
 
                 if (pO.exists()){
                     val user = pO.getValue<User>(User::class.java)
@@ -170,5 +170,27 @@ class ProfileFragment : Fragment() {
             }
 
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        pref?.putString("profileId",firebaseUser.uid)
+        pref?.apply()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        pref?.putString("profileId",firebaseUser.uid)
+        pref?.apply()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        pref?.putString("profileId",firebaseUser.uid)
+        pref?.apply()
     }
 }
