@@ -58,7 +58,42 @@ class ProfileFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.edit_account_settings_btn).setOnClickListener {
-            startActivity(Intent(context,AccountSettingsActivity::class.java))
+           val getButtonText = view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString()
+
+
+            when{
+                getButtonText == "Profili Düzenle" -> startActivity(Intent(context,AccountSettingsActivity::class.java))
+
+                getButtonText == "Takip Et" ->{
+                    firebaseUser?.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(it1.toString())
+                            .child("Following").child(profileId).setValue(true)
+                    }
+
+                    firebaseUser?.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(profileId)
+                            .child("Followers").child(it1.toString())
+                            .setValue(true)
+                    }
+                }
+                getButtonText == "Takip ediliyor" ->{
+                    firebaseUser?.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(it1.toString())
+                            .child("Following").child(profileId).removeValue()
+                    }
+
+                    firebaseUser?.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(profileId)
+                            .child("Followers").child(it1.toString())
+                            .removeValue()
+                    }
+                }
+            }
+
         }
 
         getFollowers()
