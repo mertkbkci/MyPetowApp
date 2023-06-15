@@ -51,44 +51,34 @@ class AccountSettingsActivity : AppCompatActivity() {
     }
 
     private fun updateUserInfoOnly() {
-        val fullName = findViewById<TextView>(R.id.full_name_profile_frag).text.toString().trim()
-        val userName = findViewById<TextView>(R.id.usermane_profile_frag).text.toString().trim()
-        val bio = findViewById<TextView>(R.id.bio_profile_frag).text.toString().trim()
 
-        if (TextUtils.isEmpty(fullName)) {
-            Toast.makeText(this, "Lütfen önce tam adınızı yazın.", Toast.LENGTH_LONG).show()
-        } else if (TextUtils.isEmpty(userName)) {
-            Toast.makeText(this, "Lütfen önce kullanıcı adınızı yazın.", Toast.LENGTH_LONG).show()
-        } else if (TextUtils.isEmpty(bio)) {
-            Toast.makeText(this, "Lütfen önce bionuzu yazın.", Toast.LENGTH_LONG).show()
-        } else {
-            val usersRef =
-                FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
-            val userMap = HashMap<String, Any>()
-            userMap["fullname"] = fullName.lowercase(Locale.getDefault())
-            userMap["username"] = userName.lowercase(Locale.getDefault())
-            userMap["bio"] = bio.lowercase(Locale.getDefault())
+        when {TextUtils.isEmpty(findViewById<TextView>(R.id.full_name_profile_frag).text.toString()) ->
+                Toast.makeText(this, "Lütfen önce tam adınızı yazın.", Toast.LENGTH_LONG).show()
 
-            usersRef.updateChildren(userMap)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(
-                            this,
-                            "Hesap bilgileri başarıyla güncellendi.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        val intent = Intent(this@AccountSettingsActivity, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(
-                            this,
-                            "Hesap bilgileri güncellenirken bir hata oluştu.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
+            (findViewById<TextView>(R.id.usermane_profile_frag).text.toString()) == "" ->
+                Toast.makeText(this, "Lütfen önce kullanıcı adınızı yazın.", Toast.LENGTH_LONG).show()
+
+            (findViewById<TextView>(R.id.bio_profile_frag).text.toString()) == " " ->
+                Toast.makeText(this, "Lütfen önce bionuzu yazın.", Toast.LENGTH_LONG).show()
+
+            else -> {
+                val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+
+                val userMap = HashMap<String, Any>()
+                userMap["fullname"] = findViewById<TextView>(R.id.full_name_profile_frag).text.toString().toLowerCase()
+                userMap["username"] =findViewById<TextView>(R.id.usermane_profile_frag).text.toString().toLowerCase()
+                userMap["bio"] = findViewById<TextView>(R.id.bio_profile_frag).text.toString().toLowerCase()
+
+                usersRef.child(firebaseUser.uid).updateChildren(userMap)
+
+                Toast.makeText(this, "Hesap bilgileri başarıyla güncellendi.", Toast.LENGTH_LONG).show()
+
+                val intent = Intent(this@AccountSettingsActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+
+            }
         }
     }
 
@@ -96,9 +86,9 @@ class AccountSettingsActivity : AppCompatActivity() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
         usersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    val user = dataSnapshot.getValue(User::class.java)
+            override fun onDataChange(pO: DataSnapshot) {
+                if (pO.exists()) {
+                    val user = pO.getValue(User::class.java)
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(findViewById<CircleImageView>(R.id.profile_image_view_profile_frag))
                     findViewById<TextView>(R.id.usermane_profile_frag).text = user?.getUsername()
@@ -107,7 +97,7 @@ class AccountSettingsActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
+            override fun onCancelled(pO: DatabaseError) {
                 // İstediğiniz şekilde hata durumunu ele alabilirsiniz.
             }
         })

@@ -60,35 +60,33 @@ class ProfileFragment : Fragment() {
         view.findViewById<Button>(R.id.edit_account_settings_btn).setOnClickListener {
 
 
-            when (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString()) {
-                "Edit Profile" -> startActivity(Intent(context,AccountSettingsActivity::class.java))
-                "Follow" -> {
-                    firebaseUser?.uid.let { it1 ->
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(it1.toString())
-                            .child("Following").child(profileId).setValue(true)
-                    }
-
-                    firebaseUser?.uid.let { it1 ->
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(profileId)
-                            .child("Followers").child(it1.toString())
-                            .setValue(true)
-                    }
+            if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Edit Profile") startActivity(Intent(context,AccountSettingsActivity::class.java))
+            else if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Follow") {
+                firebaseUser?.uid.let { it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Follow").child(it1.toString())
+                        .child("Following").child(profileId).setValue(true)
                 }
-                "Following" -> {
-                    firebaseUser?.uid.let { it1 ->
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(it1.toString())
-                            .child("Following").child(profileId).removeValue()
-                    }
 
-                    firebaseUser?.uid.let { it1 ->
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(profileId)
-                            .child("Followers").child(it1.toString())
-                            .removeValue()
-                    }
+                firebaseUser?.uid.let { it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Follow").child(profileId)
+                        .child("Followers").child(it1.toString())
+                        .setValue(true)
+                }
+            }
+            else if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Following") {
+                firebaseUser?.uid.let { it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Follow").child(it1.toString())
+                        .child("Following").child(profileId).removeValue()
+                }
+
+                firebaseUser?.uid.let { it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Follow").child(profileId)
+                        .child("Followers").child(it1.toString())
+                        .removeValue()
                 }
             }
 

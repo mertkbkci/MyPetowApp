@@ -92,6 +92,7 @@ class UserAdapter (private var mContext: Context,
                                         .removeValue().addOnCompleteListener { task ->
                                             if (task.isSuccessful) {
 
+
                                             }
                                         }
                                 }
@@ -125,10 +126,10 @@ class UserAdapter (private var mContext: Context,
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 if (dataSnapshot.child(uid).exists()){
-                    followButton.text = "Takip ediliyor"
+                    followButton.text = "Following"
                 }
                 else{
-                    followButton.text = "Takip et"
+                    followButton.text = "Follow"
                 }
             }
 
