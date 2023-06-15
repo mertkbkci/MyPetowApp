@@ -45,12 +45,12 @@ class ProfileFragment : Fragment() {
 
         if (pref != null){
             //sıkıntı olabılır
-            this.profileId = pref.getString("profileId", "none")!!
+            this.profileId = pref?.getString("profileId", "none")!!
         }
 
         if (profileId == firebaseUser.uid){
 
-            view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Profili Düzenle"
+            view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Edit Profile"
         }
         else  if (profileId != firebaseUser.uid){
 
@@ -58,13 +58,11 @@ class ProfileFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.edit_account_settings_btn).setOnClickListener {
-           val getButtonText = view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString()
 
 
-            when{
-                getButtonText == "Profili Düzenle" -> startActivity(Intent(context,AccountSettingsActivity::class.java))
-
-                getButtonText == "Takip Et" ->{
+            when (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString()) {
+                "Edit Profile" -> startActivity(Intent(context,AccountSettingsActivity::class.java))
+                "Follow" -> {
                     firebaseUser?.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(it1.toString())
@@ -78,7 +76,7 @@ class ProfileFragment : Fragment() {
                             .setValue(true)
                     }
                 }
-                getButtonText == "Takip ediliyor" ->{
+                "Following" -> {
                     firebaseUser?.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(it1.toString())
@@ -112,17 +110,17 @@ class ProfileFragment : Fragment() {
 // değişti
         followingRef.addValueEventListener(object : ValueEventListener{
 
-            override fun onDataChange(pO: DataSnapshot) {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                if (pO.child(profileId).exists()){
-                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Takip ediliyor"
+                if (dataSnapshot.child(profileId).exists()){
+                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Following"
                 }
                 else{
-                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Takip et"
+                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Follow"
                 }
             }
 
-            override fun onCancelled(pO: DatabaseError) {
+            override fun onCancelled(dataSnapshot: DatabaseError) {
 
             }
 
@@ -179,14 +177,12 @@ class ProfileFragment : Fragment() {
         })
     }
     private fun userInfo(){
-        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
 
         usersRef.addValueEventListener(object :ValueEventListener{
 
             override fun onDataChange(pO: DataSnapshot) {
- //               if (context != null){
-   //                 return
-     //           }
+
 
                 if (pO.exists()){
                     val user = pO.getValue<User>(User::class.java)

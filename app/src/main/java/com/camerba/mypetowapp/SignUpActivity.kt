@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.util.Locale
 
 import android.app.ProgressDialog as Pro
 
@@ -45,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
 
             else -> {
                 val progressDialog = Pro(this@SignUpActivity)
-                progressDialog.setTitle("Kayıl Ol")
+                progressDialog.setTitle("Kayıl ")
                 progressDialog.setMessage("Lütfen bekleyin,bu biraz zaman alabilir...")
                 progressDialog.setCanceledOnTouchOutside(false)
                 progressDialog.show()
@@ -70,42 +71,46 @@ class SignUpActivity : AppCompatActivity() {
 
     }
 
-    private fun saveUserInfo(fullName: String, userName: String, email: String, progressDialog:ProgressDialog) {
+    private fun saveUserInfo(
+        fullName: String,
+        userName: String,
+        email: String,
+        progressDialog: ProgressDialog
+    ) {
 
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
-        val usersRef : DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
+        val usersRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
 
 
-
-        val userMap = HashMap<String,Any>()
+        val userMap = HashMap<String, Any>()
         userMap["uid"] = currentUserID
-        userMap["fullname"] = fullName.toLowerCase()
-        userMap["username"] = userName.toLowerCase()
+        userMap["fullname"] = fullName.lowercase(Locale.getDefault())
+        userMap["username"] = userName.lowercase(Locale.getDefault())
         userMap["email"] = email
         userMap["bio"] = "ben bir hayvan severim. "
-        userMap["image"] = "https://firebasestorage.googleapis.com/v0/b/petow5.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=c6c7c5b9-bb88-456e-9ded-2a0f1c898c93"
+        userMap["image"] =
+            "https://firebasestorage.googleapis.com/v0/b/petow5.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=c6c7c5b9-bb88-456e-9ded-2a0f1c898c93"
 
         usersRef.child(currentUserID).setValue(userMap)
             .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
+                if (task.isSuccessful) {
 
-                progressDialog.dismiss()
-                Toast.makeText(this,"Hesap başarıyla oluşturuldu.",Toast.LENGTH_LONG).show()
+                    progressDialog.dismiss()
+                    Toast.makeText(this, "Hesap başarıyla oluşturuldu.", Toast.LENGTH_LONG).show()
 
 
-                val intent = Intent(this@SignUpActivity, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish()
+                    val intent = Intent(this@SignUpActivity, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
 
-            }
-                else {
+                } else {
 
                     val message = task.exception!!.toString()
-                Toast.makeText(this, "Hata: $message", Toast.LENGTH_LONG).show()
-                FirebaseAuth.getInstance().signOut()
-                progressDialog.dismiss()
-            }
+                    Toast.makeText(this, "Hata: $message", Toast.LENGTH_LONG).show()
+                    FirebaseAuth.getInstance().signOut()
+                    progressDialog.dismiss()
+                }
 
             }
     }

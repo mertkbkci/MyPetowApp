@@ -9,7 +9,12 @@ import com.camerba.mypetowapp.Fragments.HomeFragment
 import com.camerba.mypetowapp.Fragments.ProfileFragment
 import com.camerba.mypetowapp.Fragments.SearchFragment
 
+
+
+
 class MainActivity : AppCompatActivity() {
+
+
 
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

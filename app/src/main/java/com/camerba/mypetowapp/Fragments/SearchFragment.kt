@@ -63,7 +63,7 @@ class SearchFragment : Fragment() {
                     recyclerView?.visibility = View.VISIBLE
 
                     retrieveUsers ()
-                    searchUser(s.toString().toLowerCase())
+                    searchUser(s.toString().lowercase(Locale.getDefault()))
                 }
             }
 
@@ -99,7 +99,7 @@ class SearchFragment : Fragment() {
                     val user = snapshot.getValue(User::class.java)
                     if (user != null){
 
-                        mUser?.add(user)
+                        mUser?.add(user!!)
                     }
 
                 }
@@ -118,7 +118,7 @@ class SearchFragment : Fragment() {
 
     private fun retrieveUsers() {
 
-        val userRef = FirebaseDatabase.getInstance().getReference().child("Users")
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
         userRef.addValueEventListener(object : ValueEventListener{
 
             @SuppressLint("NotifyDataSetChanged")
@@ -132,7 +132,7 @@ class SearchFragment : Fragment() {
                         val user = snapshot.getValue(User::class.java)
                         if (user != null){
 
-                            mUser?.add(user)
+                            mUser?.add(user!!)
                         }
 
                     }
