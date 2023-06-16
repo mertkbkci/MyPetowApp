@@ -46,6 +46,7 @@ class AddPostActivity : AppCompatActivity() {
 
 
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -71,7 +72,7 @@ class AddPostActivity : AppCompatActivity() {
                 var uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
 
-                uploadTask.continueWithTask (Continuation  <UploadTask.TaskSnapshot, Task<Uri>>{ task ->
+                uploadTask.continueWithTask (Continuation <UploadTask.TaskSnapshot, Task<Uri>>{ task ->
 
                     if (!task.isSuccessful){
                         task.exception?.let {
@@ -80,8 +81,7 @@ class AddPostActivity : AppCompatActivity() {
                         }
                     }
                     return@Continuation fileRef.downloadUrl
-                })
-                    .addOnCompleteListener { OnCompleteListener<Uri> { task ->
+                }).addOnCompleteListener { OnCompleteListener<Uri> { task ->
 
                         if (task.isSuccessful){
                             val downloadUrl = task.result

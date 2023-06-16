@@ -46,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
 
             else -> {
                 val progressDialog = Pro(this@SignUpActivity)
-                progressDialog.setTitle("Kayıl ")
+                progressDialog.setTitle("Kayıt ")
                 progressDialog.setMessage("Lütfen bekleyin,bu biraz zaman alabilir...")
                 progressDialog.setCanceledOnTouchOutside(false)
                 progressDialog.show()
