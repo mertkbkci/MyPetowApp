@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.camerba.mypetowapp.Model.User
+import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -26,8 +27,7 @@ import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import de.hdodenhof.circleimageview.CircleImageView
-import java.util.Locale
-import kotlin.coroutines.Continuation
+
 
 class AccountSettingsActivity : AppCompatActivity() {
     private lateinit var firebaseUser: FirebaseUser
@@ -142,10 +142,7 @@ class AccountSettingsActivity : AppCompatActivity() {
     }
     private fun uploadImageAndUpdateInfo() {
 
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setTitle("Hesap ayarları")
-        progressDialog.setMessage("Lütfen bekleyin, profilinizi güncelliyoruz...")
-        progressDialog.show()
+
 
         when{
             imageUri == null -> Toast.makeText(this, "Lütfen önce fotğrafınızı seçin.", Toast.LENGTH_LONG).show()
@@ -157,11 +154,16 @@ class AccountSettingsActivity : AppCompatActivity() {
                 Toast.makeText(this, "Lütfen önce bionuzu yazın.", Toast.LENGTH_LONG).show()
 
             else ->{
+                val progressDialog = ProgressDialog(this)
+                progressDialog.setTitle("Hesap ayarları")
+                progressDialog.setMessage("Lütfen bekleyin, profilinizi güncelliyoruz...")
+                progressDialog.show()
+
                 val fileRef = storageProfilePicRef!!.child(firebaseUser!!.uid + "jpg")
 
                 var uploadTask:StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
-                uploadTask.continueWithTask (com.google.android.gms.tasks.Continuation <UploadTask.TaskSnapshot,Task<Uri>>{ task ->
+                uploadTask.continueWithTask (Continuation  <UploadTask.TaskSnapshot,Task<Uri>>{ task ->
 
                     if (!task.isSuccessful){
                         task.exception?.let {
@@ -170,7 +172,8 @@ class AccountSettingsActivity : AppCompatActivity() {
                         }
                     }
                     return@Continuation fileRef.downloadUrl
-                }).addOnCompleteListener { OnCompleteListener<Uri> {task ->
+                }).addOnCompleteListener { OnCompleteListener<Uri> { task ->
+
                     if (task.isSuccessful){
                         val downloadUrl = task.result
                         myUrl = downloadUrl.toString()
@@ -190,14 +193,14 @@ class AccountSettingsActivity : AppCompatActivity() {
                         val intent = Intent(this@AccountSettingsActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
+                        progressDialog.dismiss()
                     }
                     else{
                         progressDialog.dismiss()
                     }
 
-                }
 
-                }
+                }  }
 
 
             }

@@ -59,8 +59,10 @@ class ProfileFragment : Fragment() {
 
         view.findViewById<Button>(R.id.edit_account_settings_btn).setOnClickListener {
 
+            if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Edit Profile")
+                startActivity(Intent(context,AccountSettingsActivity::class.java))
 
-            if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Edit Profile") startActivity(Intent(context,AccountSettingsActivity::class.java))
+
             else if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Follow") {
                 firebaseUser?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
