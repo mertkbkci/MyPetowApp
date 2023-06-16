@@ -8,6 +8,9 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.camerba.mypetowapp.Model.User
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageView
+import com.canhub.cropper.options
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -21,6 +24,7 @@ import java.util.Locale
 class AccountSettingsActivity : AppCompatActivity() {
     private lateinit var firebaseUser: FirebaseUser
     private var checker = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +40,7 @@ class AccountSettingsActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
 
         findViewById<Button>(R.id.save_info_profile_btn).setOnClickListener {
             if (checker == "clicked") {
