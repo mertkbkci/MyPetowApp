@@ -1,6 +1,7 @@
 package com.camerba.mypetowapp
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.camerba.mypetowapp.Model.User
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -140,6 +142,11 @@ class AccountSettingsActivity : AppCompatActivity() {
     }
     private fun uploadImageAndUpdateInfo() {
 
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setTitle("Hesap ayarları")
+        progressDialog.setMessage("Lütfen bekleyin, profilinizi güncelliyoruz...")
+        progressDialog.show()
+
         when{
             imageUri == null -> Toast.makeText(this, "Lütfen önce fotğrafınızı seçin.", Toast.LENGTH_LONG).show()
             TextUtils.isEmpty(findViewById<TextView>(R.id.full_name_profile_frag).text.toString()) ->
@@ -151,6 +158,7 @@ class AccountSettingsActivity : AppCompatActivity() {
 
             else ->{
                 val fileRef = storageProfilePicRef!!.child(firebaseUser!!.uid + "jpg")
+
                 var uploadTask:StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
                 uploadTask.continueWithTask (com.google.android.gms.tasks.Continuation <UploadTask.TaskSnapshot,Task<Uri>>{ task ->
@@ -158,10 +166,38 @@ class AccountSettingsActivity : AppCompatActivity() {
                     if (!task.isSuccessful){
                         task.exception?.let {
                             throw it
+                            progressDialog.dismiss()
                         }
                     }
                     return@Continuation fileRef.downloadUrl
-                })
+                }).addOnCompleteListener { OnCompleteListener<Uri> {task ->
+                    if (task.isSuccessful){
+                        val downloadUrl = task.result
+                        myUrl = downloadUrl.toString()
+
+                        val ref = FirebaseDatabase.getInstance().reference.child("Users")
+
+                        val userMap = HashMap<String, Any>()
+                        userMap["fullname"] = findViewById<TextView>(R.id.full_name_profile_frag).text.toString().toLowerCase()
+                        userMap["username"] =findViewById<TextView>(R.id.usermane_profile_frag).text.toString().toLowerCase()
+                        userMap["bio"] = findViewById<TextView>(R.id.bio_profile_frag).text.toString().toLowerCase()
+                        userMap["image"] = myUrl
+
+                        ref.child(firebaseUser.uid).updateChildren(userMap)
+
+                        Toast.makeText(this, "Hesap bilgileri başarıyla güncellendi.", Toast.LENGTH_LONG).show()
+
+                        val intent = Intent(this@AccountSettingsActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    else{
+                        progressDialog.dismiss()
+                    }
+
+                }
+
+                }
 
 
             }
