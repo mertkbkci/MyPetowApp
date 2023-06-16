@@ -38,10 +38,10 @@ class AddPostActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.save_new_post_btn).setOnClickListener { uploadImage() }
 
 
-
         CropImage.activity()
-            .setAspectRatio(2,1)
+            .setAspectRatio(3,3)
             .start(this@AddPostActivity)
+
     }
 
 
@@ -59,7 +59,7 @@ class AddPostActivity : AppCompatActivity() {
     private fun uploadImage() {
         when{
             imageUri == null -> Toast.makeText(this, "Lütfen önce fotoğrafınızı seçin.", Toast.LENGTH_LONG).show()
-            TextUtils.isEmpty(findViewById<TextView>(R.id.description_post).text.toString()) -> Toast.makeText(this,"Lütfen önce ilan bilgilerini girin", Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(findViewById<EditText>(R.id.description_post).text.toString()) -> Toast.makeText(this,"Lütfen önce ilan bilgilerini girin", Toast.LENGTH_LONG).show()
 
             else ->{
                 val progressDialog = ProgressDialog(this)

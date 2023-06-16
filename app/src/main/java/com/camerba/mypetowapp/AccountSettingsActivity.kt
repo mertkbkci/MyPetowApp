@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.camerba.mypetowapp.Model.User
@@ -60,7 +61,7 @@ class AccountSettingsActivity : AppCompatActivity() {
                 .start(this@AccountSettingsActivity)
         }
 
-        findViewById<Button>(R.id.save_info_profile_btn).setOnClickListener {
+        findViewById<ImageView>(R.id.save_info_profile_btn).setOnClickListener {
             if (checker == "clicked") {
 
                 uploadImageAndUpdateInfo()
