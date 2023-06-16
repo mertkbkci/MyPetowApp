@@ -98,7 +98,7 @@ class AccountSettingsActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(pO: DatabaseError) {
-                // İstediğiniz şekilde hata durumunu ele alabilirsiniz.
+
             }
         })
     }
