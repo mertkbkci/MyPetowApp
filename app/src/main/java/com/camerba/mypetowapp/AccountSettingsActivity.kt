@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -182,9 +183,9 @@ class AccountSettingsActivity : AppCompatActivity() {
                         val ref = FirebaseDatabase.getInstance().reference.child("Users")
 
                         val userMap = HashMap<String, Any>()
-                        userMap["fullname"] = findViewById<TextView>(R.id.full_name_profile_frag).text.toString().toLowerCase()
-                        userMap["username"] =findViewById<TextView>(R.id.usermane_profile_frag).text.toString().toLowerCase()
-                        userMap["bio"] = findViewById<TextView>(R.id.bio_profile_frag).text.toString().toLowerCase()
+                        userMap["fullname"] = findViewById<EditText>(R.id.full_name_profile_frag).text.toString().toLowerCase()
+                        userMap["username"] =findViewById<EditText>(R.id.usermane_profile_frag).text.toString().toLowerCase()
+                        userMap["bio"] = findViewById<EditText>(R.id.bio_profile_frag).text.toString().toLowerCase()
                         userMap["image"] = myUrl
 
                         ref.child(firebaseUser.uid).updateChildren(userMap)
