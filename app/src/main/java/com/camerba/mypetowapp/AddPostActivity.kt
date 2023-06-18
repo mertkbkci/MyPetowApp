@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
@@ -48,16 +47,22 @@ class AddPostActivity : AppCompatActivity() {
 
 
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
-            imageUri = result.uri
-            findViewById<ImageView>(R.id.image_post).setImageURI(imageUri)
+            if (resultCode == RESULT_OK) {
+                imageUri = result.uri
+                findViewById<ImageView>(R.id.image_post).setImageURI(imageUri)
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+                Toast.makeText(this, "Fotoğraf kırpılırken bir hata oluştu: $error", Toast.LENGTH_LONG).show()
+            }
         }
-
     }
+
     private fun uploadImage() {
         when{
             imageUri == null -> Toast.makeText(this, "Lütfen önce fotoğrafınızı seçin.", Toast.LENGTH_LONG).show()
@@ -69,7 +74,7 @@ class AddPostActivity : AppCompatActivity() {
                 progressDialog.setMessage("Lütfen bekleyin, ilanınızı yüklüyoruz...")
                 progressDialog.show()
 
-                val fileRef = storagePostPicRef!!.child(System.currentTimeMillis().toString()+ ".jpg")
+                val fileRef = storagePostPicRef!!.child(System.currentTimeMillis().toString()+ ".jpeg")
 
                 val uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)

@@ -21,9 +21,6 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 
 
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 
 class ProfileFragment : Fragment() {
@@ -50,7 +47,7 @@ class ProfileFragment : Fragment() {
 
         if (profileId == firebaseUser.uid){
 
-            view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Edit Profile"
+            view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Profili Düzenle"
         }
         else  if (profileId != firebaseUser.uid){
 
@@ -59,7 +56,7 @@ class ProfileFragment : Fragment() {
 
         view.findViewById<Button>(R.id.edit_account_settings_btn).setOnClickListener {
 
-            if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Edit Profile")
+            if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Profili Düzenle")
                 startActivity(Intent(context,AccountSettingsActivity::class.java))
 
 
@@ -110,17 +107,17 @@ class ProfileFragment : Fragment() {
 // değişti
         followingRef.addValueEventListener(object : ValueEventListener{
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
+            override fun onDataChange(datasnapshot: DataSnapshot) {
 
-                if (dataSnapshot.child(profileId).exists()){
-                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Following"
+                if (datasnapshot.child(profileId).exists()){
+                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Takip Ediliyor"
                 }
                 else{
-                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Follow"
+                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Takip et"
                 }
             }
 
-            override fun onCancelled(dataSnapshot: DatabaseError) {
+            override fun onCancelled(datasnapshot: DatabaseError) {
 
             }
 

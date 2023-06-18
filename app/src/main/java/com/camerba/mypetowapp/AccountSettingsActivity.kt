@@ -89,6 +89,7 @@ class AccountSettingsActivity : AppCompatActivity()
 
 
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
         super.onActivityResult(requestCode, resultCode, data)
@@ -166,13 +167,13 @@ class AccountSettingsActivity : AppCompatActivity()
 
             else -> {
                 val progressDialog = ProgressDialog(this)
-                progressDialog.setTitle("Hesap Ayarlar")
+                progressDialog.setTitle("Hesap Ayarları")
                 progressDialog.setMessage("Lütfen bekleyin. Hesap bilgilerinizi güncelliyoruz...")
                 progressDialog.show()
 
-                val fileRef = storageProfilePicRef!!.child(firebaseUser!!.uid + ".jpg")
+                val fileRef = storageProfilePicRef!!.child(firebaseUser!!.uid + ".jpeg")
 
-                var uploadTask: StorageTask<*>
+                val uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
 
                 uploadTask.continueWithTask(Continuation <UploadTask.TaskSnapshot, Task<Uri>>{ task ->
