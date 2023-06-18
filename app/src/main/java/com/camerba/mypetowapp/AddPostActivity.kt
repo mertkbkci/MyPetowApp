@@ -22,6 +22,7 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.theartofdev.edmodo.cropper.CropImage
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.Locale
 
 class AddPostActivity : AppCompatActivity() {
 
@@ -70,7 +71,7 @@ class AddPostActivity : AppCompatActivity() {
 
                 val fileRef = storagePostPicRef!!.child(System.currentTimeMillis().toString()+ ".jpg")
 
-                var uploadTask: StorageTask<*>
+                val uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
 
                 uploadTask.continueWithTask (Continuation  <UploadTask.TaskSnapshot, Task<Uri>>{ task ->
@@ -93,7 +94,8 @@ class AddPostActivity : AppCompatActivity() {
 
                             val postMap = HashMap<String, Any>()
                             postMap["postid"] = postId!!
-                            postMap["description"] =findViewById<EditText>(R.id.description_post).text.toString().toLowerCase()
+                            postMap["description"] =findViewById<EditText>(R.id.description_post).text.toString().toLowerCase(
+                                Locale.ROOT)
                             postMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
                             postMap["postimage"] = myUrl
 

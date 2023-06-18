@@ -95,18 +95,19 @@ class HomeFragment : Fragment() {
                 for (snapshot in pO.children){
                     val post = snapshot.getValue(Post::class.java)
 
-                    for (id in folowingList!!){
+                    for (id in folowingList as ArrayList<String> ){
 
-                        if (post!!.getPublisher() == id.toString()){
+                        if (post!!.getPublisher() == id){
                             postList!!.add(post)
                         }
 
+                        postAdapter!!.notifyDataSetChanged()
                     }
                 }
             }
 
             override fun onCancelled(pO: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })

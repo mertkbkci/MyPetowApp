@@ -96,7 +96,7 @@ class PostAdapter
             }
 
             override fun onCancelled(pO: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })
