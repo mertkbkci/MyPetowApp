@@ -43,7 +43,7 @@ class UserAdapter (private var mContext: Context,
         holder.userFullNameTextView.text = user.getFullname()
         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(holder.userProfileImage)
 
-        checkFollowingStatus(user.getUID(), holder.followButton)
+        checkFollowingStatus(user.getUID(), holder.followButton!!)
         holder.itemView.setOnClickListener(View.OnClickListener {
             val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             pref.putString("profileId",user.getUID())
@@ -53,7 +53,7 @@ class UserAdapter (private var mContext: Context,
         })
 
 
-        holder.followButton.setOnClickListener {
+        holder.followButton!!.setOnClickListener {
             if (holder.userFullNameTextView.text.toString() == "Follow") {
 
                 firebaseUser?.uid.let { it1 ->

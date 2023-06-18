@@ -135,11 +135,11 @@ class AccountSettingsActivity : AppCompatActivity()
 
         usersRef.addValueEventListener(object : ValueEventListener
         {
-            override fun onDataChange(p0: DataSnapshot)
+            override fun onDataChange(snapshot: DataSnapshot)
             {
-                if (p0.exists())
+                if (snapshot.exists())
                 {
-                    val user = p0.getValue<User>(User::class.java)
+                    val user = snapshot.getValue<User>(User::class.java)
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(findViewById<CircleImageView>(R.id.profile_image_view_profile_frag))
                     findViewById<EditText>(R.id.usermane_profile_frag).setText(user!!.getUsername())
@@ -148,7 +148,7 @@ class AccountSettingsActivity : AppCompatActivity()
                 }
             }
 
-            override fun onCancelled(p0: DatabaseError) {
+            override fun onCancelled(snapshot: DatabaseError) {
 
             }
         })

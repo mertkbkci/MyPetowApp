@@ -88,8 +88,7 @@ class SignUpActivity : AppCompatActivity() {
         userMap["username"] = userName.lowercase(Locale.getDefault())
         userMap["email"] = email
         userMap["bio"] = "ben bir hayvan severim. "
-        userMap["image"] =
-            "https://firebasestorage.googleapis.com/v0/b/petow5.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=c6c7c5b9-bb88-456e-9ded-2a0f1c898c93"
+        userMap["image"] = "https://firebasestorage.googleapis.com/v0/b/petow5.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=c6c7c5b9-bb88-456e-9ded-2a0f1c898c93"
 
         usersRef.child(currentUserID).setValue(userMap)
             .addOnCompleteListener { task ->
@@ -97,6 +96,12 @@ class SignUpActivity : AppCompatActivity() {
 
                     progressDialog.dismiss()
                     Toast.makeText(this, "Hesap başarıyla oluşturuldu.", Toast.LENGTH_LONG).show()
+
+
+                    FirebaseDatabase.getInstance().reference
+                        .child("Follow").child(currentUserID)
+                        .child("Following").child(currentUserID)
+                        .setValue(true)
 
 
                     val intent = Intent(this@SignUpActivity, MainActivity::class.java)

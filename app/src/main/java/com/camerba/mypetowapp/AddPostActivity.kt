@@ -39,7 +39,7 @@ class AddPostActivity : AppCompatActivity() {
 
 
         CropImage.activity()
-            .setAspectRatio(3,3)
+            .setAspectRatio(1,1)
             .start(this@AddPostActivity)
 
     }
@@ -67,12 +67,13 @@ class AddPostActivity : AppCompatActivity() {
                 progressDialog.setTitle("Yeni İlan Yükleniyor")
                 progressDialog.setMessage("Lütfen bekleyin, ilanınızı yüklüyoruz...")
                 progressDialog.show()
-                val fileRef = storagePostPicRef!!.child(System.currentTimeMillis().toString()+ "jpg")
+
+                val fileRef = storagePostPicRef!!.child(System.currentTimeMillis().toString()+ ".jpg")
 
                 var uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
 
-                uploadTask.continueWithTask (Continuation <UploadTask.TaskSnapshot, Task<Uri>>{ task ->
+                uploadTask.continueWithTask (Continuation  <UploadTask.TaskSnapshot, Task<Uri>>{ task ->
 
                     if (!task.isSuccessful){
                         task.exception?.let {
