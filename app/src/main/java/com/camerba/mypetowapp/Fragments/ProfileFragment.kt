@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
 
         if (profileId == firebaseUser.uid){
 
-            view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Profili Düzenle"
+            view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Edit Profile"
         }
         else  if (profileId != firebaseUser.uid){
 
@@ -56,7 +56,7 @@ class ProfileFragment : Fragment() {
 
         view.findViewById<Button>(R.id.edit_account_settings_btn).setOnClickListener {
 
-            if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Profili Düzenle")
+            if (view.findViewById<Button>(R.id.edit_account_settings_btn).text.toString() == "Edit Profile")
                 startActivity(Intent(context,AccountSettingsActivity::class.java))
 
 
@@ -110,10 +110,10 @@ class ProfileFragment : Fragment() {
             override fun onDataChange(datasnapshot: DataSnapshot) {
 
                 if (datasnapshot.child(profileId).exists()){
-                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Takip Ediliyor"
+                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Following"
                 }
                 else{
-                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Takip et"
+                    view?.findViewById<Button>(R.id.edit_account_settings_btn)?.text = "Follow"
                 }
             }
 

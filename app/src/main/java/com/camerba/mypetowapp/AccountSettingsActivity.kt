@@ -171,9 +171,9 @@ class AccountSettingsActivity : AppCompatActivity()
                 progressDialog.setMessage("Lütfen bekleyin. Hesap bilgilerinizi güncelliyoruz...")
                 progressDialog.show()
 
-                val fileRef = storageProfilePicRef!!.child(firebaseUser!!.uid + ".jpeg")
+                val fileRef = storageProfilePicRef!!.child(firebaseUser!!.uid + ".jpg")
 
-                val uploadTask: StorageTask<*>
+                var uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
 
                 uploadTask.continueWithTask(Continuation <UploadTask.TaskSnapshot, Task<Uri>>{ task ->
@@ -185,7 +185,7 @@ class AccountSettingsActivity : AppCompatActivity()
                         }
                     }
                     return@Continuation fileRef.downloadUrl
-                }).addOnCompleteListener (OnCompleteListener<Uri> {task ->
+                }).addOnCompleteListener {OnCompleteListener<Uri> { task ->
                     if (task.isSuccessful)
                     {
                         val downloadUrl = task.result
@@ -212,7 +212,7 @@ class AccountSettingsActivity : AppCompatActivity()
                     {
                         progressDialog.dismiss()
                     }
-                } )
+                } }
             }
         }
     }
