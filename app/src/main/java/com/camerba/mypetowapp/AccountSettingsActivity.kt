@@ -136,11 +136,11 @@ class AccountSettingsActivity : AppCompatActivity()
 
         usersRef.addValueEventListener(object : ValueEventListener
         {
-            override fun onDataChange(snapshot: DataSnapshot)
+            override fun onDataChange(pO: DataSnapshot)
             {
-                if (snapshot.exists())
+                if (pO.exists())
                 {
-                    val user = snapshot.getValue<User>(User::class.java)
+                    val user = pO.getValue<User>(User::class.java)
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(findViewById<CircleImageView>(R.id.profile_image_view_profile_frag))
                     findViewById<EditText>(R.id.usermane_profile_frag).setText(user!!.getUsername())
@@ -149,7 +149,7 @@ class AccountSettingsActivity : AppCompatActivity()
                 }
             }
 
-            override fun onCancelled(snapshot: DatabaseError) {
+            override fun onCancelled(pO: DatabaseError) {
 
             }
         })
@@ -158,6 +158,7 @@ class AccountSettingsActivity : AppCompatActivity()
 
     private fun uploadImageAndUpdateInfo()
     {
+
         when
         {
             imageUri == null -> Toast.makeText(this, "Lütfen önce fotoğraf seçin.", Toast.LENGTH_LONG).show()
@@ -185,7 +186,7 @@ class AccountSettingsActivity : AppCompatActivity()
                         }
                     }
                     return@Continuation fileRef.downloadUrl
-                }).addOnCompleteListener {OnCompleteListener<Uri> { task ->
+                }).addOnCompleteListener (OnCompleteListener<Uri> { task ->
                     if (task.isSuccessful)
                     {
                         val downloadUrl = task.result
@@ -212,7 +213,7 @@ class AccountSettingsActivity : AppCompatActivity()
                     {
                         progressDialog.dismiss()
                     }
-                } }
+                } )
             }
         }
     }
